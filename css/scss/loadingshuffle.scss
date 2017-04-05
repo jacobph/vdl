@@ -1,6 +1,6 @@
 .loading {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -14,15 +14,22 @@
 
 .flickity-container{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-left: -70px;
   height: 100vh;
 }
 
+.loading__message {
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
 .hand {
   position: relative;
   height: 100px;
+  width: 120px;
 }
 
 .shuffle-card {

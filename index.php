@@ -12,6 +12,19 @@
 					<h1>MTG Visual Decklist Generator</h1>
 				</div>
 			</header>
+			<div class="container hero">
+				<div class="row">
+					<div class="col">
+					  <h1>Turn Your Decklists Into Images</h1>
+					  <p>Ready-made graphics for streaming, articles, and sharing.</p>
+					</div>
+					<div class="col">
+						<img class="img-responsive img-hero" src="images/text-to-deck.jpg" alt="Turn your magic the gathering decklist into full-art graphics">
+					</div>
+				</div>
+				
+				
+			</div>
 			<div class="container">
 				<div class="row">
 					<div class="col col-left">
@@ -19,7 +32,7 @@
 					  	<label for="#deckName">Deck Name</label>
 					  	<input type="text" id="deckName" value="" placeholder="i.e. Modern Infect">
 					  	<label for="decklist">Decklist</label>
-					  	<textarea id="decklist" name="" id="" cols="30" rows="10" placeholder="4 Blighted Agent
+					  	<textarea id="decklist" class="textarea" name="" id="" cols="30" rows="10" placeholder="4 Blighted Agent
 3 Blossoming Defense
 2 Breeding Pool
 SIDEBOARD
@@ -62,6 +75,7 @@ etc...">
 		</footer>
 		<div class="loading">
 			<div class="flickity-container">
+				<div class="loading__message">f</div>
 			  <div class="hand">
 			    <div class="shuffle-card card-1"><span></span></div>
 			    <div class="shuffle-card card-2"><span></span></div>
@@ -70,8 +84,8 @@ etc...">
 			</div>
 		</div>
 
-		<script src="js/html2canvas.js"></script>
 		<script src="js/bundle.js"></script>
+		<script src="js/html2canvas.js"></script>
 		<script>
 		function downloadCanvas(link, canvasId, filename) {
 	    link.href = document.getElementById(canvasId).toDataURL();

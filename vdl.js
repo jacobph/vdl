@@ -1,8 +1,8 @@
 // js ajax functions
 function getOutput(postdata) {
   getRequest(
-		'save-to-server.php', // URL for the PHP file
-       postdata, 		// our POST data
+    'save-to-server.php', // URL for the PHP file
+       postdata,     // our POST data
        drawOutput,  // handle successful request
        drawError    // handle error
   );
@@ -43,14 +43,14 @@ function getRequest(url, postdata, success, error) {
   if (typeof error !== 'function') error = function () {};
   req.onreadystatechange = function () {
     if (req.readyState == 4) {
-    	console.log('saving done');
-    	vdl.renderDeck();
+      console.log('saving done');
+      vdl.renderDeck();
       return req.status === 200 ? success(req.responseText) : error(req.status);
     }
   };
   req.open('POST', url, true);
   req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  		req.send(postdata);
+      req.send(postdata);
     // req.send(null);
   return req;
 }
@@ -65,10 +65,10 @@ function UrlExists(url) {
 
 const mtg = require('mtgsdk');
 // mtg.card.all({ name: 'ether hub|dismember'})
-// 	.on('data', card => {
-// 	    console.log(card.name);
-// 	    console.log(card);
-// 	}
+//   .on('data', card => {
+//       console.log(card.name);
+//       console.log(card);
+//   }
 // );
 
 // removes duplicates from an array
@@ -84,103 +84,104 @@ var vdl = {
     deckName: '',
     queryList: '',
   },
-	// get user input from form
+  // get user input from form
   getUserInput() {
 
   },
-	// parse userinput decklist into a queryList that the mtgsdk can accept
+  // parse userinput decklist into a queryList that the mtgsdk can accept
   parseDecklist(deckLines) {
-	  let queryListArr = [];
-	  const deck = [];
-	  var queryName = '';
-	  let splitPartner = '';
-	  let isSplit = false;
+    let queryListArr = [];
+    const deck = [];
+    var queryName = '';
+    let splitPartner = '';
+    let isSplit = false;
 
-	  for (let i = 0; i < deckLines.length; i++) {
-	  	queryName = '';
-	  	splitPartner = '';
-	  	isSplit = false;
-	    const number = deckLines[i].substr(0, deckLines[i].indexOf(' ')); // 4
-	    // check if there's a number. treat lines without a number as a divider
-	    const hasNumber = !isNaN(parseInt(number));
-	    if (hasNumber) {
-	      var name = deckLines[i].substr(deckLines[i].indexOf(' ') + 1); // Lighting Bolt
-	     	queryName = name.toLowerCase();
+    for (let i = 0; i < deckLines.length; i++) {
+      queryName = '';
+      splitPartner = '';
+      isSplit = false;
+      const number = deckLines[i].substr(0, deckLines[i].indexOf(' ')); // 4
+      // check if there's a number. treat lines without a number as a divider
+      const hasNumber = !isNaN(parseInt(number));
+      if (hasNumber) {
+        var name = deckLines[i].substr(deckLines[i].indexOf(' ') + 1); // Lighting Bolt
+         queryName = name.toLowerCase();
 
-	     	// if (name.indexOf(',') > -1) {
-	     	// 	var queryName = name.replace(',', '%2C');
-	     	// }
-		    // handle "aether" and split cards
-		    if (name.indexOf('aether') > -1) {
-      		var queryName = name.replace('aether', 'ether');
-		    }
-		    // handle split cards
-		    if (name.indexOf('//') > -1) {
-		    	isSplit = true;
-		    	var queryName = name.substr(0, name.indexOf('//')).trim().toLowerCase();
-		    }
+         // if (name.indexOf(',') > -1) {
+         //   var queryName = name.replace(',', '%2C');
+         // }
+        // handle "aether" and split cards
+        if (name.indexOf('aether') > -1) {
+          var queryName = name.replace('aether', 'ether');
+        }
+        // handle split cards
+        if (name.indexOf('//') > -1) {
+          isSplit = true;
+          var queryName = name.substr(0, name.indexOf('//')).trim().toLowerCase();
+        }
 
-		    queryListArr.push(queryName);
-	    } else {
-	    	var name = deckLines[i];
-	    }
+        queryListArr.push(queryName);
+      } else {
+        var name = deckLines[i];
+      }
 
-	    deck.push({
-	        slot: i,
-	        name,
-	        queryName,
-	        quantity: number,
-	        isSplit,
-	        splitPartner,
-	        isDivider: !hasNumber,
-	        attributes: {}
-	    });
-	  }
-	  vdl.state.deck = deck;
-	  queryListArr = unique(queryListArr);
-	  vdl.state.queryList = queryListArr;
-	  console.log('finished building query list');
+      deck.push({
+          slot: i,
+          name,
+          queryName,
+          quantity: number,
+          isSplit,
+          splitPartner,
+          isDivider: !hasNumber,
+          attributes: {}
+      });
+    }
+    vdl.state.deck = deck;
+    queryListArr = unique(queryListArr);
+    vdl.state.queryList = queryListArr;
+    console.log('finished building query list');
     console.log(vdl.state);
 
 
-		// call requestCards here
+    // call requestCards here
     vdl.updateLocalStorage(vdl.state);
     vdl.requestCards(vdl.state.queryList);
   },
-	// make the API call
+  // make the API call
   requestCards(queryListArr) {
     const queryListString = queryListArr.join('|').toLowerCase();
-  	const cardData = [];
-	  const emitter = mtg.card.all({ name: queryListString });
-	  emitter.on('data', (card) => {
-	    cardData.push(card);
-	  });
-	  emitter.on('end', (finish) => {
-	    for (let i = 0; i < cardData.length; i++) {
-	      const thisCard = cardData[i];
-	      const thisCardName = thisCard.name.toLowerCase();
-	      for (let j = 0; j < vdl.state.deck.length; j++) {
-	        // if (thisCardName === vdl.state.deck[j].name.toLowerCase()){
-	        //   vdl.state.deck[j].attributes = thisCard;
-	        // }
+    const cardData = [];
+    const emitter = mtg.card.all({ name: queryListString });
+    emitter.on('data', (card) => {
+      cardData.push(card);
+    });
+    emitter.on('end', (finish) => {
+      for (let i = 0; i < cardData.length; i++) {
+        const thisCard = cardData[i];
+        const thisCardName = thisCard.name.toLowerCase();
+        for (let j = 0; j < vdl.state.deck.length; j++) {
+          // if (thisCardName === vdl.state.deck[j].name.toLowerCase()){
+          //   vdl.state.deck[j].attributes = thisCard;
+          // }
 
-	        // do fuzzy matching to account for split cards
-	        // this could cause problems if a split card name is contined w/in another card name
-	        // think fire//ice and fireball
-	        if (vdl.state.deck[j].name.toLowerCase().indexOf(thisCardName) > -1) {
-	          vdl.state.deck[j].attributes = thisCard;
-	        }
-	      }
-	    }
+          // do fuzzy matching to account for split cards
+          // this could cause problems if a split card name is contined w/in another card name
+          // think fire//ice and fireball
+          if (vdl.state.deck[j].name.toLowerCase().indexOf(thisCardName) > -1) {
+            vdl.state.deck[j].attributes = thisCard;
+          }
+        }
+      }
 
-	    console.log(cardData);
+      console.log(cardData);
 
-	    // call the saveCardImages function
-    vdl.saveCardImages();
-	  });
+      // call the saveCardImages function
+      vdl.saveCardImages();
+    });
   },
-	// save card images to the server
+  // save card images to the server
   saveCardImages() {
+    document.querySelector('.loading__message').innerText = 'Downloading Card Images';
     console.log('saveCardImages called');
     console.log(vdl.state);
     let queryStringURLs = 'cardurls=';
@@ -190,7 +191,7 @@ var vdl = {
 
     for (let i = 0; i < deck.length; i++) {
       if (deck[i].isDivider != true) {
-      	var cardname = deck[i].attributes.name.replace(',', '');
+        var cardname = deck[i].attributes.name.replace(',', '');
         queryStringURLs = `${queryStringURLs + deck[i].attributes.imageUrl.replace('&type=card', '%26type=card')},`;
         console.log(queryStringURLs);
         queryStringNames = `${queryStringNames + encodeURI(cardname)},`;
@@ -205,7 +206,7 @@ var vdl = {
     console.log(`query string is ${queryString}`);
     getOutput(queryString);
   },
-	// update the state, also add the state obj to localStorage
+  // update the state, also add the state obj to localStorage
   updateState(cardNames, deck, deckName, queryList) {
     if (cardNames) {
       this.state.cardNames = cardNames;
@@ -236,136 +237,140 @@ var vdl = {
     this.updateLocalStorage(this.state);
   },
   renderDeck() {
-  	//re-enable the button and remove loading classes
-  	document.getElementById('button').disabled = false;
+    //re-enable the button and remove loading classes
+    document.getElementById('button').disabled = false;
     document.body.classList.remove('loading-active');
     document.querySelector('.loading').classList.remove('active');
 
 
-		// display the contents of .col-right
+    // display the contents of .col-right
     document.querySelector('.col-right').classList.add('active');
     const deck = vdl.state.deck;
     const visualDeckList = document.getElementById('visualDeckList');
-	  visualDeckList.innerHTML = '';
-	  const deckNameTag = document.createElement('div');
-	  deckNameTag.className = 'deck-name';
-	  deckNameTag.innerHTML = `<div>${vdl.state.deckName}</div>`;
-	  visualDeckList.appendChild(deckNameTag);
-	  for (let i = 0; i < deck.length; i++) {
-	    // create a row representing a deckslot
-	    const row = document.createElement('div');
-	    row.className = `card cardslot${i}`;
+    visualDeckList.innerHTML = '';
+    const deckNameTag = document.createElement('div');
+    deckNameTag.className = 'deck-name';
+    deckNameTag.innerHTML = `<div>${vdl.state.deckName}</div>`;
+    visualDeckList.appendChild(deckNameTag);
+    for (let i = 0; i < deck.length; i++) {
+      // create a row representing a deckslot
+      const row = document.createElement('div');
+      row.className = `card cardslot${i}`;
 
-		  // add card darken filter
-	    const cardDarkenTag = document.createElement('div');
-	    cardDarkenTag.className = 'card-darken';
+      // add card darken filter
+      const cardDarkenTag = document.createElement('div');
+      cardDarkenTag.className = 'card-darken';
 
-	    if (deck[i].isDivider) {
-	    	// cardFlexTag & leftTagDiv is duplicated in either side of this if statement
-	    	// these elements have to be appeneded to the DOM AFTER the cardBgTag div to
-	    	// to make the screenshot work properly
+      if (deck[i].isDivider) {
+        // cardFlexTag & leftTagDiv is duplicated in either side of this if statement
+        // these elements have to be appeneded to the DOM AFTER the cardBgTag div to
+        // to make the screenshot work properly
 
-	    	// add flex container
-		    var cardFlexTag = document.createElement('div');
-		    cardFlexTag.className = 'card-flex';
+        // add flex container
+        var cardFlexTag = document.createElement('div');
+        cardFlexTag.className = 'card-flex';
 
-		    // add container for quantity and name
-		    var leftDivTag = document.createElement('div');
-		    cardFlexTag.appendChild(leftDivTag);
+        // add container for quantity and name
+        var leftDivTag = document.createElement('div');
+        cardFlexTag.appendChild(leftDivTag);
 
       row.className = `${row.className} divider`;
-	    } else {
-	    	// add card bg
-		    const cardBgTag = document.createElement('div');
-		    cardBgTag.className = 'card-bg';
-		    row.appendChild(cardBgTag);
+      } else {
+        // add card bg
+        const cardBgTag = document.createElement('div');
+        cardBgTag.className = 'card-bg';
+        row.appendChild(cardBgTag);
 
-		    // add flex container
-		    var cardFlexTag = document.createElement('div');
-		    cardFlexTag.className = 'card-flex';
+        // add flex container
+        var cardFlexTag = document.createElement('div');
+        cardFlexTag.className = 'card-flex';
 
-		    // add container for quantity and name
-		    var leftDivTag = document.createElement('div');
-		    cardFlexTag.appendChild(leftDivTag);
+        // add container for quantity and name
+        var leftDivTag = document.createElement('div');
+        cardFlexTag.appendChild(leftDivTag);
 
-	    	if (deck[i].isSplit) {
-	    		// cardBgTag.setAttribute('style', 'background-image:url("' + deck[i].attributes.imageUrl + '"), url("' + deck[i].attributes.imageUrl + '")');
-	    		cardBgTag.setAttribute('style', `background-image:url("img/${encodeURIComponent(deck[i].attributes.name)}.jpg"), url("img/${encodeURIComponent(deck[i].attributes.name)}.jpg")`);
-      		row.className = `${row.className} split-card`;
-	    	}	    	else {
-	    	  // cardBgTag.setAttribute('style', 'background-image:url("' + deck[i].attributes.imageUrl + '")');
-	    		cardBgTag.setAttribute('style', `background-image:url("img/${encodeURIComponent(deck[i].attributes.name.replace(',', ''))}.jpg")`);
-	    	}
-	    	// add the quantity
-		    const quantityTag = document.createElement('span');
-		    quantityTag.className = 'card-quantity';
-		    quantityTag.innerHTML = `${deck[i].quantity}&nbsp;`;
-		    leftDivTag.appendChild(quantityTag);
+        if (deck[i].isSplit) {
+          // cardBgTag.setAttribute('style', 'background-image:url("' + deck[i].attributes.imageUrl + '"), url("' + deck[i].attributes.imageUrl + '")');
+          cardBgTag.setAttribute('style', `background-image:url("img/${encodeURIComponent(deck[i].attributes.name)}.jpg"), url("img/${encodeURIComponent(deck[i].attributes.name)}.jpg")`);
+          row.className = `${row.className} split-card`;
+        }        else {
+          // cardBgTag.setAttribute('style', 'background-image:url("' + deck[i].attributes.imageUrl + '")');
+          cardBgTag.setAttribute('style', `background-image:url("img/${encodeURIComponent(deck[i].attributes.name.replace(',', ''))}.jpg")`);
+        }
+        // add the quantity
+        const quantityTag = document.createElement('span');
+        quantityTag.className = 'card-quantity';
+        quantityTag.innerHTML = `${deck[i].quantity}&nbsp;`;
+        leftDivTag.appendChild(quantityTag);
 
-		    // add the mana cost
-		    const manaCostTag = document.createElement('div');
-		    manaCostTag.className = 'mana-cost';
-		    const thisManaCost = deck[i].attributes.manaCost;
-		    if (typeof thisManaCost !== 'undefined') {
-		      thisManaCostHTML = thisManaCost.toLowerCase();
-		      thisManaCostHTML = thisManaCostHTML.replace(/{/g, '<span class="mana m-');
-		      thisManaCostHTML = thisManaCostHTML.replace(/\//g, '');
-		      thisManaCostHTML = thisManaCostHTML.replace(/}/g, '"></span>');
-		      console.log(thisManaCostHTML);
-		      manaCostTag.innerHTML = thisManaCostHTML;
-		    }
-		    cardFlexTag.appendChild(manaCostTag);
+        // add the mana cost
+        const manaCostTag = document.createElement('div');
+        manaCostTag.className = 'mana-cost';
+        const thisManaCost = deck[i].attributes.manaCost;
+        if (typeof thisManaCost !== 'undefined') {
+          thisManaCostHTML = thisManaCost.toLowerCase();
+          thisManaCostHTML = thisManaCostHTML.replace(/{/g, '<span class="mana m-');
+          thisManaCostHTML = thisManaCostHTML.replace(/\//g, '');
+          thisManaCostHTML = thisManaCostHTML.replace(/}/g, '"></span>');
+          console.log(thisManaCostHTML);
+          manaCostTag.innerHTML = thisManaCostHTML;
+        }
+        cardFlexTag.appendChild(manaCostTag);
     }
-	    row.appendChild(cardDarkenTag);
+      row.appendChild(cardDarkenTag);
 
-	    row.appendChild(cardFlexTag);
+      row.appendChild(cardFlexTag);
 
-		  // add the name
-	    const cardNameTag = document.createElement('span');
-	    cardNameTag.className = 'card-name';
-	    console.log(deck[i].name);
-	    console.log(deck[i].name.length);
-	    let nameHTML = deck[i].name;
-	    if (deck[i].name.length > 17) {
-	    	nameHTML = `<small>${deck[i].name}</small>`;
-	    } 
-	    console.log(`nameHTML is ${nameHTML}`);
-	    // cardNameTag.innerHTML = deck[i].name;
-	    cardNameTag.innerHTML = nameHTML;
-	    leftDivTag.appendChild(cardNameTag);
-	    visualDeckList.appendChild(row);
-	  }
+      // add the name
+      const cardNameTag = document.createElement('span');
+      cardNameTag.className = 'card-name';
+      console.log(deck[i].name);
+      console.log(deck[i].name.length);
+      let nameHTML = deck[i].name;
+      if (deck[i].name.length > 17) {
+        nameHTML = `<small>${deck[i].name}</small>`;
+      } 
+      console.log(`nameHTML is ${nameHTML}`);
+      // cardNameTag.innerHTML = deck[i].name;
+      cardNameTag.innerHTML = nameHTML;
+      leftDivTag.appendChild(cardNameTag);
+      visualDeckList.appendChild(row);
+    }
 
-	  const builtWithTag = document.createElement('div');
-	  builtWithTag.className = 'built-with';
-	  builtWithTag.innerHTML = 'VisualDecklist.com';
-	  visualDeckList.appendChild(builtWithTag);
+    const builtWithTag = document.createElement('div');
+    builtWithTag.className = 'built-with';
+    builtWithTag.innerHTML = 'VisualDecklist.com';
+    visualDeckList.appendChild(builtWithTag);
 
 
-	  ga('send', 'event', 'DeckListBuilt');
-	  return false;
+    ga('send', 'event', 'DeckListBuilt');
+    return false;
   },
   init() {
     document.getElementById('button').addEventListener('click', () => {
-    	this.disabled = true;
-			// activate loading animation
+
+      // get inputs
+      const deckName = document.getElementById('deckName').value;
+      let deckLines = document.getElementById('decklist').value.split('\n');
+      // strip empty elements from array. works because empty strings are falsey
+      deckLines = deckLines.filter(Boolean);
+
+      this.disabled = true;
+      // activate loading animation
       document.body.classList.add('loading-active');
       document.querySelector('.loading').classList.add('active');
+      document.querySelector('.loading__message').innerText = 'Fetching Decklist Data';
 
-			// get inputs
-		  const deckName = document.getElementById('deckName').value;
-		  let deckLines = document.getElementById('decklist').value.split('\n');
-		  // strip empty elements from array. works because empty strings are falsey
-		  deckLines = deckLines.filter(Boolean);
+      // clear the state from the previous decklist, if there was one
+      vdl.clearState();
 
-		  // clear the state from the previous decklist, if there was one
-		  vdl.clearState();
-
-			// cardNames, deck, deckName, queryList
+      // cardNames, deck, deckName, queryList
       vdl.updateState('', vdl.state.deck, deckName, vdl.state.queryList);
 
       vdl.parseDecklist(deckLines);
-		 }, false);
+
+      
+     }, false);
   },
 };
 

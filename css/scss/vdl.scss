@@ -2,15 +2,18 @@
 	box-sizing: border-box;
 }
 
-@font-face {
-  font-family: 'Beleren-Bold';
-  src: url('../fonts/Beleren-Bold.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/Beleren-Bold.woff') format('woff'),
-    url('../fonts/Beleren-Bold.ttf')  format('truetype'),
-    url('../fonts/Beleren-Bold.svg#Beleren-Bold') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: 'Beleren-Bold';
+//   src: url('../fonts/Beleren-Bold.eot?#iefix') format('embedded-opentype'),
+//     url('../fonts/Beleren-Bold.woff') format('woff'),
+//     url('../fonts/Beleren-Bold.ttf')  format('truetype'),
+//     url('../fonts/Beleren-Bold.svg#Beleren-Bold') format('svg');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One');
+
 
 body{
   font-size: 18px;
@@ -20,7 +23,7 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color:#565656;
+  color: $grey;
 
   &.loading-active {
     overflow: hidden;
@@ -35,6 +38,7 @@ body{
 
 h1 {
   font-size: 2em;
+  line-height: 1.2em;
   padding: 0.5em 0;
 }
 
@@ -51,7 +55,7 @@ label{
 }
 
 input, textarea {
-  border: 1px solid #565656;
+  border: 1px solid $grey;
   width:100%;
   padding:10px;
   font-family:'helvetica neue', arial, sans-serif;
@@ -69,12 +73,12 @@ p{
 
 a {
   text-decoration: none;
-  color: #673AB7;
+  color: $purple;
   font-weight: bold;
 }
 
 a:hover, a:active, a:focus{
-  color:#512DA8;
+  color: $purpleDark;
 }
 
 ul {
@@ -90,9 +94,14 @@ small {
   font-size: 0.8em;
 }
 
+.img-responsive {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 .button-open{
-    border:5px solid #673AB7;
-    color: #673AB7;
+    border:5px solid $purple;
+    color: $purple;
     padding: 15px 45px;
     cursor: pointer;
     font-size: 22px;
@@ -101,15 +110,15 @@ small {
 }
 
 .button-open:hover, .button-open:active{
-    background: #512DA8;
-    border-color: #512DA8; 
-    color:#ffffff;  
+    background: $purpleDark;
+    border-color: $purpleDark; 
+    color:$white;  
 }
 
 .button-primary {
-    background: #673AB7;
+    background: $purple;
     border: 0 none;
-    color: #fff;
+    color: $white;
     padding: 15px 45px;
     cursor: pointer;
     font-size: 22px;
@@ -117,7 +126,7 @@ small {
 }
 
 .button-primary:hover, .button-primary:active {
-    background: #512DA8;
+    background: $purpleDark;
 }
 
 button#screenshot{
@@ -160,6 +169,10 @@ button#screenshot{
 
 .col-right{
   width:350px;
+  margin-top: 25px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border: 3px dashed gainsboro;
 }
 
 @media(min-width:768px){
@@ -169,13 +182,27 @@ button#screenshot{
 }
 
 header {
-  font-family: 'Beleren-Bold';
+  // font-family: 'Beleren-Bold';
+  // font-family: 'Julius Sans One', sans-serif;
   margin-bottom: 45px;
-  box-shadow: 0px -1.5px 15px #BDBDBD;
+  box-shadow: 0px -1.5px 15px $grey;
 }
 
 .top{
-  padding-bottom:25px;
+  margin-bottom:45px;
+}
+
+.hero {
+  margin-bottom: 45px;
+
+  .col:nth-child(1) {
+    padding-right: 15px;
+  }
+  
+  p {
+    font-size: 1.2em;
+    line-height: 1.5em;
+  }
 }
 
 .please-wait{
@@ -191,7 +218,7 @@ header {
   width: 100%;
   height: 30px;
   background-position:32px -90px;
-  border-bottom: 3px solid #141011;
+  border-bottom: 3px solid $cardBorder;
   background-size: 100%;
   overflow: hidden;
 }
@@ -218,7 +245,7 @@ header {
 .deck-name{
   padding: 0 10px;
   height: 35px;
-  border-bottom: 3px solid #777;
+  border-bottom: 3px solid $grey;
   font-size: 18px;
 }
 .card-darken, .card-flex{
@@ -254,12 +281,12 @@ header {
 	border-top: 10px solid transparent;
 	border-bottom:10px solid transparent;
 	border-radius:5px;
-	border-color: #0e0b0c;
-  color: #fff;
+	border-color: $cardBorder;
+  color: $white;
   font-size: 18px;
   font-weight: bold;
-  text-shadow: 2px 2px 5px #000;
-  background:#0e0b0c;
+  text-shadow: 2px 2px 5px $cardBorder;
+  background:$cardBorder;
   margin:0 auto 15px;
 }
 .col-right > * {
@@ -269,7 +296,7 @@ header {
   display: block;
 }
 .built-with {
-  color: #bababa;
+  color: $grey;
   font-size: 12px;
   text-align: center;
   padding: 5px 0 0 0;
@@ -277,13 +304,13 @@ header {
 }
 
 .middle{
-  background: #dcc7ff;
+  background: $purpleLight;
   padding: 25px 0;
 }
 
 footer{
   padding:25px 0;
-  background: #673ab7;
+  background: $purple;
   color: white;
 }
 
@@ -292,11 +319,11 @@ footer p.disclaimer{
 }
 
 footer a{
-  color: #dcc7ff;
+  color: $purpleLight;
 }
 
 footer a:hover, footer a:active{
-  color:#ffffff;
+  color:$white;
 
 }
 
@@ -314,7 +341,7 @@ footer a:hover, footer a:active{
   top:0;
   width:100%;
   height: 100vh;
-  color:#ffffff;
+  color:$white;
   background:rgba(0,0,0,0.8);
   z-index: 999;
 }
@@ -331,7 +358,7 @@ body.canvas-active .canvas-container{
   position:absolute;
   top:10px;
   right:10px;
-  color:#ffffff;
+  color:$white;
 }
 
 .canvas-container .close:hover{
