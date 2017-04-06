@@ -83962,23 +83962,29 @@ var vdl = {
 
       // get inputs
       const deckName = document.getElementById('deckName').value;
-      let deckLines = document.getElementById('decklist').value.split('\n');
-      // strip empty elements from array. works because empty strings are falsey
-      deckLines = deckLines.filter(Boolean);
+      const deckListTxt = document.getElementById('decklist').value
+      let deckLines = deckListTxt.split('\n');
+      if (deckListTxt.length > 0) {
+        // strip empty elements from array. works because empty strings are falsey
+        deckLines = deckLines.filter(Boolean);
 
-      this.disabled = true;
-      // activate loading animation
-      document.body.classList.add('loading-active');
-      document.querySelector('.loading').classList.add('active');
-      document.querySelector('.loading__message').innerText = 'Fetching Decklist Data';
+        this.disabled = true;
+        // activate loading animation
+        document.body.classList.add('loading-active');
+        document.querySelector('.loading').classList.add('active');
+        document.querySelector('.loading__message').innerText = 'Fetching Decklist Data';
 
-      // clear the state from the previous decklist, if there was one
-      vdl.clearState();
+        // clear the state from the previous decklist, if there was one
+        vdl.clearState();
 
-      // cardNames, deck, deckName, queryList
-      vdl.updateState('', vdl.state.deck, deckName, vdl.state.queryList);
+        // cardNames, deck, deckName, queryList
+        vdl.updateState('', vdl.state.deck, deckName, vdl.state.queryList);
 
-      vdl.parseDecklist(deckLines);
+        vdl.parseDecklist(deckLines);      
+      } else {
+        alert("enter a decklist first");
+      }
+
 
       
      }, false);

@@ -6,25 +6,26 @@
 		<link rel="stylesheet" href="css/vdl.min.css">
 	</head>
 	<body>	
-	  <section class="top">
+		<section class="hero">
 			<header>
 				<div class="container">
 					<h1>MTG Visual Decklist Generator</h1>
 				</div>
 			</header>
-			<div class="container hero">
+			<div class="container">
 				<div class="row">
 					<div class="col">
 					  <h1>Turn Your Decklists Into Images</h1>
 					  <p>Ready-made graphics for streaming, articles, and sharing.</p>
+					  <a href="#builder" class="button-secondary get-started">Get Started</a>				
 					</div>
 					<div class="col">
 						<img class="img-responsive img-hero" src="images/text-to-deck.jpg" alt="Turn your magic the gathering decklist into full-art graphics">
 					</div>
 				</div>
-				
-				
 			</div>
+		</section>
+	  <section id="builder" class="builder">
 			<div class="container">
 				<div class="row">
 					<div class="col col-left">
