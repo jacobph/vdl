@@ -33,7 +33,7 @@
 					  	<label for="#deckName">Deck Name</label>
 					  	<input type="text" id="deckName" value="" placeholder="i.e. Modern Infect">
 					  	<label for="decklist">Decklist</label>
-					  	<textarea id="decklist" class="textarea" name="" id="" cols="30" rows="10" placeholder="4 Blighted Agent
+					  	<textarea id="decklist" class="textarea" name="" id="" cols="30" rows="20" placeholder="4 Blighted Agent
 3 Blossoming Defense
 2 Breeding Pool
 SIDEBOARD
