@@ -36,10 +36,9 @@
   font-size:22px;
   height:100px;
   width:70px;
-  border: 3px solid #262722;
+  border: 3px solid $cardBorder;
   border-radius: 3px;
-  background-color: #b3704d;
-  background-color: lavender;
+  background-color: $purpleLight;
   position: absolute;
   top: 0;
   transition: transform 0.2s ease; 
