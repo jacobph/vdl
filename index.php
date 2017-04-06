@@ -70,7 +70,7 @@ etc...">
 			<div class="container">
 				
 				<p>Made possible thanks to the <a href="https://magicthegathering.io/" target="_blank">MTG API</a>.</p>
-				<p>You can <a href="https://github.com/ahoy1/visual-decklist/" target="_blank">view this project on github</a>.</p>
+				<p>You can <a href="https://github.com/jacobph/vdl" target="_blank">view this project on github</a>.</p>
 				<p class="disclaimer">This website is not produced by, endorsed by, supported by, or affiliated with Wizards of the Coast. The copyright for Magic: the Gathering and all associated card names and card images are held by Wizards of the Coast.</p>
 			</div>
 		</footer>
