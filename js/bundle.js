@@ -83715,8 +83715,9 @@ var vdl = {
       // check if there's a number. treat lines without a number as a divider
       const hasNumber = !isNaN(parseInt(number));
       if (hasNumber) {
-        var name = deckLines[i].substr(deckLines[i].indexOf(' ') + 1); // Lighting Bolt
-         queryName = name.toLowerCase();
+        var name = deckLines[i].replace(/\s\s+/g, ' ');
+        name = name.substr(name.indexOf(' ') + 1); // Lighting Bolt
+        queryName = name.toLowerCase();
 
          // if (name.indexOf(',') > -1) {
          //   var queryName = name.replace(',', '%2C');
