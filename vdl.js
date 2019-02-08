@@ -160,6 +160,12 @@ var vdl = {
       for (let i = 0; i < cardData.length; i++) {
         const thisCard = cardData[i];
         const thisCardName = thisCard.name.toLowerCase();
+
+        // Some cards don't have image URLs
+        if (!thisCard.imageUrl) {
+            continue;
+        }
+
         for (let j = 0; j < vdl.state.deck.length; j++) {
           // if (thisCardName === vdl.state.deck[j].name.toLowerCase()){
           //   vdl.state.deck[j].attributes = thisCard;
